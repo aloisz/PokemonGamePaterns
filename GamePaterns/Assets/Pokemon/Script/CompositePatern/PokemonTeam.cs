@@ -6,38 +6,43 @@ using System.Collections.Generic;
 
 public class PokemonTeam : MonoBehaviour
 {
+    public List<PokemonCreator> pokemonCreators;
+
 	void Start ()
     {
         // Create a tree structure
-        // Creation de l'inventaire des pokemon 
-        Composite root = new Composite("root");
-        for (int i = 1; i <= 6; i++) // 6 places d'inventaire
+        // Creation de l'inventaire des pokemons 
+        Composite inventory = new Composite("Inventory");
+
+        for (int i = 0; i <= pokemonCreators.Count; i++) // 6 places d'inventaires
         {
-            root.Add(new Leaf("Pokemon n° " + i));
-            
-            // Add the first Composite ==> THE NAME
+            Composite pokemonNumber = new Composite("Pokemon n° " + i);
+            inventory.Add(pokemonNumber);
+
+            // Add the Composite ==> THE NAME
             Composite name = new Composite("Name");
-            name.Add(new Leaf("Pikachu"));
+            name.Add(new Leaf(pokemonCreators[i].pokemonCreatorLists.pokemonName));
             
-            root.Add(name);
+            pokemonNumber.Add(name);
             
             // Add the Composite ==> Object
-            Composite obj = new Composite("Object");
-            obj.Add(new Leaf("Pots"));
+            Composite obj = new Composite("Object");    
+            obj.Add(new Leaf(pokemonCreators[i].pokemonCreatorLists.objInHand));
 
-            name.Add(obj);
+            pokemonNumber.Add(obj);
             
         
             // Add the Composite ==> Attacks
             Composite attacks = new Composite("Attacks");
-            attacks.Add(new Leaf("Eclairs"));
-            attacks.Add(new Leaf("Fleurs"));
+            for (int j = 0; j < pokemonCreators[i].pokemonCreatorLists.attack.Count; j++)
+            {
+                attacks.Add(new Leaf(pokemonCreators[i].pokemonCreatorLists.attack[j].attackName + " // " + pokemonCreators[i].pokemonCreatorLists.attack[j].attackDamage + " Damage"));
+            }
 
-            name.Add(attacks);
-        
-        
+            pokemonNumber.Add(attacks);
+            
             // Recursively display tree
-            root.Display(1);
+            inventory.Display(1);
         }
         
 
@@ -109,4 +114,30 @@ class Leaf : Component
     {
         Debug.Log(new String('-', depth) + name);
     }
+}
+
+
+
+
+
+[Serializable]
+public class PokemonCreator
+{
+    public PokemonCreatorList pokemonCreatorLists;
+}
+
+[Serializable]
+public class PokemonCreatorList
+{
+    public string pokemonName;
+    public string objInHand;
+    
+    public List<PokemonCreatorListAttacks> attack;
+}
+
+[Serializable]
+public class PokemonCreatorListAttacks
+{
+    public string attackName;
+    public int attackDamage;
 }

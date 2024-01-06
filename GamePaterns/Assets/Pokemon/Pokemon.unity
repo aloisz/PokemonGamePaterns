@@ -267,9 +267,9 @@ GameObject:
   m_Component:
   - component: {fileID: 346808160}
   - component: {fileID: 346808159}
+  - component: {fileID: 346808161}
   - component: {fileID: 346808158}
   - component: {fileID: 346808157}
-  - component: {fileID: 346808161}
   m_Layer: 0
   m_Name: Sacha
   m_TagString: Player
@@ -1708,6 +1708,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ffd8b89dcfeb894c8c2030d7572c2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pokemonCreators:
+  - pokemonCreatorLists:
+      pokemonName: Picachu
+      objInHand: Pot de chamre
+      attack:
+      - attackName: enorme pipi
+        attackDamage: 250
+  - pokemonCreatorLists:
+      pokemonName: Salameche
+      objInHand: Punaise de lit
+      attack:
+      - attackName: coup de tatane
+        attackDamage: 262
+      - attackName: Feux
+        attackDamage: 30
 --- !u!1 &2134743813
 GameObject:
   m_ObjectHideFlags: 0
