@@ -6,21 +6,20 @@ public class DecoratorPattern : MonoBehaviour
 {
     void Start()
     {
-        // Create book
+        // Create Pokemon
         PokemonDecorator pokemonDecorator = new PokemonDecorator("Picachu", "Coup de lame", 10);
         pokemonDecorator.Display();
 
-        // Create video
-        ShinnyPokemonDecorator shinnyPokemonDecorator = new ShinnyPokemonDecorator("Woh le gars ta vu", "Scchlasss", 23, 92);
-        shinnyPokemonDecorator.Display();
-
         // Make video borrowable, then borrow and display
-        Debug.Log("\n Nous fesons de super pokemon:");
+        Debug.Log("\n NOW LET ME PRESENT TO YOU THE NEW ..... POKEMONNN:");
 
-        Borrowable borrowvideo = new Borrowable(shinnyPokemonDecorator);
-        borrowvideo.BorrowItem("Customer #1");
+        ShinnyPokemonDecorator shinnyPokemonDecorator = new ShinnyPokemonDecorator(pokemonDecorator);
+        shinnyPokemonDecorator.ChangePokemonName("Picachu but Soooo good");
+        shinnyPokemonDecorator.ChangePokemonAttackName("You deffinatly going to be dead");
 
-        borrowvideo.Display();
+        shinnyPokemonDecorator.Display();
+        
+        Debug.Log("\n ----END DECORATOR----\n");
     }
 }
 
@@ -39,6 +38,8 @@ abstract class LibraryItem
     }
 
     public abstract void Display();
+    public abstract void ChangePokemonName(string name);
+    public abstract void ChangePokemonAttackName(string attack);
 }
 
 /// <summary>
@@ -64,38 +65,17 @@ class PokemonDecorator : LibraryItem
         Debug.Log(" attack: "+ _attack);
         Debug.Log(" # N~: "+ NbrOfPokemon);
     }
-}
 
+    public override void ChangePokemonName(string name)
+    {
+        this._name = name;
+    }
 
-/// <summary>
-/// The 'ConcreteComponent' class
-/// </summary>
-class ShinnyPokemonDecorator : LibraryItem
-{
-    private string _name;
-    private string _attack;
-    private int _superPower;
-
-    // Constructor
-    public ShinnyPokemonDecorator(string name, string attack,
-        int nbrOfPokemon, int superPower)
+    public override void ChangePokemonAttackName(string attack)
     {
         this._attack = attack;
-        this._name = name;
-        this.NbrOfPokemon = nbrOfPokemon;
-        this._superPower = superPower;
-    }
-
-    public override void Display()
-    {
-        Debug.Log("\nShinnyPokemonDecorator ----- ");
-        Debug.Log(" name: "+ _name);
-        Debug.Log(" attack: "+ _attack);
-        Debug.Log(" # N~: "+ NbrOfPokemon);
-        Debug.Log(" SuperPower: "+ _superPower+ "\n");
     }
 }
-
 
 /// <summary>
 /// The 'Decorator' abstract class
@@ -120,19 +100,24 @@ abstract class Decorator : LibraryItem
 /// <summary>
 /// The 'ConcreteDecorator' class
 /// </summary>
-class Borrowable : Decorator
+class ShinnyPokemonDecorator : Decorator
 {
     protected List<string> borrowers = new List<string>();
 
     // Constructor
-    public Borrowable(LibraryItem libraryItem) : base(libraryItem)
+    public ShinnyPokemonDecorator(LibraryItem libraryItem) : base(libraryItem)
     {
     }
-
-    public void BorrowItem(string name)
+    public override void ChangePokemonName(string name)
     {
         borrowers.Add(name);
         libraryItem.NbrOfPokemon--;
+        libraryItem.ChangePokemonName(name);
+    }
+
+    public override void ChangePokemonAttackName(string attack)
+    {
+        libraryItem.ChangePokemonName(attack);
     }
 
     public void ReturnItem(string name)
