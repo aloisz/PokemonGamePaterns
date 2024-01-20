@@ -46,7 +46,7 @@ public class TallGrass : MonoBehaviour
         //TODO : Create Factory "Zone 1 " 
         ContinentFactory zone1 = new Zone1();
         PokemonWorld world = new PokemonWorld(zone1);
-        world.CatchAPokemon();
+        world.FightAPokemon();
     }
     
     private void Road2()
@@ -54,7 +54,7 @@ public class TallGrass : MonoBehaviour
         //TODO : Create Factory "Zone 2 " 
         ContinentFactory zone2 = new Zone2();
         PokemonWorld world = new PokemonWorld(zone2);
-        world.Combat();
+        world.FightATrainer();
     }
     
     private void Road3()
@@ -119,6 +119,7 @@ class Pikachu : Wild // Product A zone 1
         Debug.Log(PlayerController.instance.transform.name + " Catch " + pokemon.GetType().Name + " !");
         UiManager.instance.ChangeTextGame();
         UiManager.instance.textGame.text = PlayerController.instance.transform.name + " Catch " + pokemon.GetType().Name + " !";
+        InventoryManager.instance.FightWithEntities(5, 1, pokemon.GetType().Name);
     }
 
     public override void DidNotSuccededToCatch(Wild pokemon)
@@ -126,6 +127,7 @@ class Pikachu : Wild // Product A zone 1
         Debug.Log(PlayerController.instance.transform.name + " Did Catch Not Catch " + pokemon.GetType().Name + " !");
         UiManager.instance.ChangeTextGame();
         UiManager.instance.textGame.text = PlayerController.instance.transform.name + " Did Catch Not Catch " + pokemon.GetType().Name + " !";
+        InventoryManager.instance.FightWithEntities(0, 1, null);
     }
 }
 
@@ -170,12 +172,14 @@ class Cedric : Trainer // Product B zone 2
         Debug.Log(PlayerController.instance.transform.name + " Win the Fight with " + pokemon.GetType().Name + " !");
         UiManager.instance.ChangeTextGame();
         UiManager.instance.textGame.text = PlayerController.instance.transform.name + " Win the Fight with " + pokemon.GetType().Name + " !";
+        InventoryManager.instance.FightWithEntities(50, 1, null);
     }
     public override void LostCombat(Trainer h)
     {
         Debug.Log(PlayerController.instance.transform.name + " Lost the Fight with " + h.GetType().Name + " !");
         UiManager.instance.ChangeTextGame();
         UiManager.instance.textGame.text = PlayerController.instance.transform.name + " Lost the Fight with " + h.GetType().Name + " !";
+        InventoryManager.instance.FightWithEntities(-25, 1, null);
     }
 }
 
@@ -193,7 +197,7 @@ class PokemonWorld
         trainer = factory.CreateTrainer();
     }
 
-    public void CatchAPokemon()
+    public void FightAPokemon()
     {
         int randomNumber = Random.Range(0, 100);
         if (randomNumber > 50)
@@ -206,7 +210,7 @@ class PokemonWorld
         }
     }
 
-    public void Combat()
+    public void FightATrainer()
     {
         int randomNumber = Random.Range(0, 100);
         if (randomNumber > 50)
