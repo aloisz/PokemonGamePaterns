@@ -12,6 +12,8 @@ public class Memento
     public float z;
     
     [SerializeField] public string[] PokemonInventory;
+    
+    // Constructor
     public Memento(Transform playerTransform, List<string> pokemonInventory)
     {
         this.x = playerTransform.transform.position.x;
